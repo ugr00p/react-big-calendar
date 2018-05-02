@@ -2,7 +2,7 @@ import getHeight from 'dom-helpers/query/height'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { findDOMNode } from 'react-dom'
-import { DAY_FIFTEEN_MINS_INTERNAL } from './utils/dates'
+import { DAY_FIFTEEN_MINS_INTERVAL } from './utils/dates'
 import { accessor, elementType } from './utils/propTypes'
 import {
   singleDayEventSegments,
@@ -16,8 +16,6 @@ const propTypes = {
   range: PropTypes.array.isRequired,
   renderForMeasure: PropTypes.bool,
 
-  container: PropTypes.func,
-
   onSelectSlot: PropTypes.func,
 
   startAccessor: accessor.isRequired,
@@ -27,13 +25,17 @@ const propTypes = {
   eventWrapperComponent: elementType.isRequired,
   minRows: PropTypes.number.isRequired,
   maxRows: PropTypes.number.isRequired,
+  dayStartTime: PropTypes.number,
+  dayEndTime: PropTypes.number,
   dayIntervalGetter: PropTypes.func.isRequired,
 }
 
 const defaultProps = {
   minRows: 0,
   maxRows: Infinity,
-  dayIntervalGetter: DAY_FIFTEEN_MINS_INTERNAL,
+  dayStartTime: 0,
+  dayEndTime: 24,
+  dayIntervalGetter: DAY_FIFTEEN_MINS_INTERVAL,
 }
 
 class SingleDayContentRow extends React.Component {
@@ -49,11 +51,6 @@ class SingleDayContentRow extends React.Component {
 
   createEventRef = r => {
     this.eventRow = r
-  }
-
-  getContainer = () => {
-    const { container } = this.props
-    return container ? container() : findDOMNode(this)
   }
 
   getRowLimit() {
@@ -94,12 +91,15 @@ class SingleDayContentRow extends React.Component {
       eventComponent,
       eventWrapperComponent,
       dayIntervalGetter,
+      dayStartTime,
+      dayEndTime,
       ...props
     } = this.props
 
     if (renderForMeasure) return this.renderDummy()
 
     let { first, last } = endOfRange(range)
+    const dayIntervals = dayIntervalGetter(dayStartTime, dayEndTime)
     let segments = (this.segments = events.map(evt =>
       singleDayEventSegments(
         evt,
@@ -109,7 +109,7 @@ class SingleDayContentRow extends React.Component {
           startAccessor,
           endAccessor,
         },
-        dayIntervalGetter()
+        dayIntervals
       )
     ))
     let { levels } = eventLevels(segments, Math.max(maxRows - 1, 1))
@@ -125,7 +125,7 @@ class SingleDayContentRow extends React.Component {
               start={first}
               end={last}
               segments={segs}
-              slots={dayIntervalGetter().length}
+              slots={dayIntervals.length}
               eventComponent={eventComponent}
               eventWrapperComponent={eventWrapperComponent}
               startAccessor={startAccessor}

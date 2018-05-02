@@ -19,14 +19,8 @@ export function eventSegments(
   let slots = dates.diff(first, last, 'day')
   let start = dates.max(dates.startOf(get(event, startAccessor), 'day'), first)
   let end = dates.min(dates.ceil(get(event, endAccessor), 'day'), last)
-  console.log(slots)
-  console.log(start)
-  console.log(end)
-
   let padding = findIndex(range, x => dates.eq(x, start, 'day'))
-  console.log(padding)
   let span = dates.diff(start, end, 'day')
-  console.log(span)
   span = Math.min(span, slots)
   span = Math.max(span, 1)
 
@@ -43,43 +37,27 @@ export function singleDayEventSegments(
   first,
   last,
   { startAccessor, endAccessor },
-  range
+  timeRange
 ) {
-  let slots = dates.diff(first, last, 'hours') * 4
+  let slots = timeRange.length
   let start = dates.max(
     dates.startOf(get(event, startAccessor), 'hours'),
     first
   )
   let end = dates.min(dates.startOf(get(event, endAccessor), 'hours'), last)
-  console.log('start', start)
-  console.log('end', end)
   let eStart = get(event, startAccessor)
   let eEnd = get(event, endAccessor)
-  let hours = dates.hours(eStart)
-  let eStartMins = dates.minutes(eStart)
-  let eEndMins = dates.minutes(eEnd)
-  let roundStartMins
-  let roundEndMins
-  if (eStartMins % 15 > 7) {
-    roundStartMins = Math.ceil(eStartMins / 15) * 15
-    roundEndMins = Math.ceil(eEndMins / 15) * 15
-  } else {
-    roundStartMins = Math.floor(eStartMins / 15) * 15
-    roundEndMins = Math.ceil(eEndMins / 15) * 15
-  }
-
-  let hourMins = hours + roundStartMins / 60
-  console.log('hours', hours)
-  console.log('mins', roundStartMins)
-  console.log('hourMins', hourMins)
-  let padding = findIndex(range, x => x === hourMins)
+  let eStartHour = dates.hours(eStart)
+  let eStartMin = dates.minutes(eStart)
+  let eEndMin = dates.minutes(eEnd)
+  let { roundStartMins, roundEndMins } = dates.roundMins(eStartMin, eEndMin)
+  let hourMins = eStartHour + roundStartMins / 60
+  let padding = findIndex(timeRange, x => x === hourMins)
   let spanHour = dates.diff(start, end, 'hours') * 4
   let spanMin = (roundEndMins - roundStartMins) / 15
-  console.log('padding', padding)
   spanHour = Math.min(spanHour, slots)
   spanHour = Math.max(spanHour, 1)
   let span = spanHour + spanMin
-  console.log(span)
   return {
     event,
     span,

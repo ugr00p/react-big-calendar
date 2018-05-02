@@ -10,11 +10,11 @@ const MILLI = {
 }
 
 const MONTHS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
-export const DAY_FIFTEEN_MINS_INTERNAL = (hour = 24) => {
+export const DAY_FIFTEEN_MINS_INTERVAL = (start = 0, end = 24) => {
   let hours = []
   let internal = 0.25
-  for (let startAt = 0; startAt < hour; startAt += internal) {
-    hours.push(startAt)
+  for (let index = start; index < end; index += internal) {
+    hours.push(index)
   }
   return hours
 }
@@ -166,6 +166,20 @@ let dates = {
     var dayWrapper = moment(date)
     dayWrapper.set({ y: 1, M: 0, date: 1 })
     return dayWrapper.toDate()
+  },
+  roundMins(start, end) {
+    const FIFTEEN_INTERVAL = 15
+    let roundStartMins
+    let roundEndMins
+    if (start % FIFTEEN_INTERVAL > 7) {
+      // Round Up
+      roundStartMins = Math.ceil(start / FIFTEEN_INTERVAL) * FIFTEEN_INTERVAL
+      roundEndMins = Math.ceil(end / FIFTEEN_INTERVAL) * FIFTEEN_INTERVAL
+    } else {
+      roundStartMins = Math.floor(start / FIFTEEN_INTERVAL) * FIFTEEN_INTERVAL
+      roundEndMins = Math.floor(end / FIFTEEN_INTERVAL) * FIFTEEN_INTERVAL
+    }
+    return { roundStartMins, roundEndMins }
   },
 }
 
