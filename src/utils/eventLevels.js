@@ -19,13 +19,45 @@ export function eventSegments(
   let slots = dates.diff(first, last, 'day')
   let start = dates.max(dates.startOf(get(event, startAccessor), 'day'), first)
   let end = dates.min(dates.ceil(get(event, endAccessor), 'day'), last)
-
   let padding = findIndex(range, x => dates.eq(x, start, 'day'))
   let span = dates.diff(start, end, 'day')
-
   span = Math.min(span, slots)
   span = Math.max(span, 1)
 
+  return {
+    event,
+    span,
+    left: padding + 1,
+    right: Math.max(padding + span, 1),
+  }
+}
+
+export function singleDayEventSegments(
+  event,
+  first,
+  last,
+  { startAccessor, endAccessor },
+  timeRange
+) {
+  let slots = timeRange.length
+  let start = dates.max(
+    dates.startOf(get(event, startAccessor), 'hours'),
+    first
+  )
+  let end = dates.min(dates.startOf(get(event, endAccessor), 'hours'), last)
+  let eStart = get(event, startAccessor)
+  let eEnd = get(event, endAccessor)
+  let eStartHour = dates.hours(eStart)
+  let eStartMin = dates.minutes(eStart)
+  let eEndMin = dates.minutes(eEnd)
+  let { roundStartMins, roundEndMins } = dates.roundMins(eStartMin, eEndMin)
+  let hourMins = eStartHour + roundStartMins / 60
+  let padding = findIndex(timeRange, x => x === hourMins)
+  let spanHour = dates.diff(start, end, 'hours') * 4
+  let spanMin = (roundEndMins - roundStartMins) / 15
+  spanHour = Math.min(spanHour, slots)
+  spanHour = Math.max(spanHour, 1)
+  let span = spanHour + spanMin
   return {
     event,
     span,

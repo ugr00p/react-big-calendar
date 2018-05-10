@@ -1,7 +1,7 @@
 /* eslint no-fallthrough: off */
 import dateMath from 'date-arithmetic'
+import moment from 'moment'
 import localizer from '../localizer'
-
 const MILLI = {
   seconds: 1000,
   minutes: 1000 * 60,
@@ -10,6 +10,13 @@ const MILLI = {
 }
 
 const MONTHS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+export const TIME_INTERVAL = (start = 0, end = 24, interval = 0.25) => {
+  let hours = []
+  for (let index = start; index < end; index += interval) {
+    hours.push(index)
+  }
+  return hours
+}
 
 let dates = {
   ...dateMath,
@@ -152,6 +159,26 @@ let dates = {
 
   tomorrow() {
     return dates.add(dates.startOf(new Date(), 'day'), 1, 'day')
+  },
+
+  stripDate(date) {
+    var dayWrapper = moment(date)
+    dayWrapper.set({ y: 1, M: 0, date: 1 })
+    return dayWrapper.toDate()
+  },
+  roundMins(start, end) {
+    const FIFTEEN_INTERVAL = 15
+    let roundStartMins
+    let roundEndMins
+    if (start % FIFTEEN_INTERVAL > 7) {
+      // Round Up
+      roundStartMins = Math.ceil(start / FIFTEEN_INTERVAL) * FIFTEEN_INTERVAL
+      roundEndMins = Math.ceil(end / FIFTEEN_INTERVAL) * FIFTEEN_INTERVAL
+    } else {
+      roundStartMins = Math.floor(start / FIFTEEN_INTERVAL) * FIFTEEN_INTERVAL
+      roundEndMins = Math.floor(end / FIFTEEN_INTERVAL) * FIFTEEN_INTERVAL
+    }
+    return { roundStartMins, roundEndMins }
   },
 }
 

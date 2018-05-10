@@ -51,7 +51,6 @@ export default {
       onSelect,
       onDoubleClick,
     } = props
-
     return (
       <EventCell
         event={event}

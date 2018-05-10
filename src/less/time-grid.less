@@ -1,5 +1,6 @@
 @import './variables.less';
 @import './time-column.less';
+@import './time-row.less';
 
 .rbc-slot-selection {
   z-index: 10;
@@ -44,6 +45,23 @@
   }
 }
 
+.rbc-singleDay-time-view {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border: 1px solid @calendar-border;
+  min-height: 0;
+  padding: 0 10px 0 10px;
+
+  .rbc-time-gutter {
+    white-space: nowrap;
+  }
+
+  .rbc-row {
+    box-sizing: border-box;
+    min-height: 20px;
+  }
+}
 
 .rbc-time-header {
   display: flex;

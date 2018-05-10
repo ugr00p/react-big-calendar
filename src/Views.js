@@ -4,12 +4,14 @@ import Day from './Day'
 import Week from './Week'
 import WorkWeek from './WorkWeek'
 import Agenda from './Agenda'
+import SingleDay from './SingleDay'
 
 const VIEWS = {
   [views.MONTH]: Month,
   [views.WEEK]: Week,
   [views.WORK_WEEK]: WorkWeek,
   [views.DAY]: Day,
+  [views.SINGLE_DAY]: SingleDay,
   [views.AGENDA]: Agenda,
 }
 
