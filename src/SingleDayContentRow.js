@@ -2,7 +2,6 @@ import getHeight from 'dom-helpers/query/height'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { findDOMNode } from 'react-dom'
-import { DAY_FIFTEEN_MINS_INTERVAL } from './utils/dates'
 import { accessor, elementType } from './utils/propTypes'
 import {
   singleDayEventSegments,
@@ -25,17 +24,12 @@ const propTypes = {
   eventWrapperComponent: elementType.isRequired,
   minRows: PropTypes.number.isRequired,
   maxRows: PropTypes.number.isRequired,
-  dayStartTime: PropTypes.number,
-  dayEndTime: PropTypes.number,
-  dayIntervalGetter: PropTypes.func.isRequired,
+  intervals: PropTypes.array,
 }
 
 const defaultProps = {
   minRows: 0,
   maxRows: Infinity,
-  dayStartTime: 0,
-  dayEndTime: 24,
-  dayIntervalGetter: DAY_FIFTEEN_MINS_INTERVAL,
 }
 
 class SingleDayContentRow extends React.Component {
@@ -90,16 +84,13 @@ class SingleDayContentRow extends React.Component {
       maxRows,
       eventComponent,
       eventWrapperComponent,
-      dayIntervalGetter,
-      dayStartTime,
-      dayEndTime,
+      intervals,
       ...props
     } = this.props
 
     if (renderForMeasure) return this.renderDummy()
 
     let { first, last } = endOfRange(range)
-    const dayIntervals = dayIntervalGetter(dayStartTime, dayEndTime)
     let segments = (this.segments = events.map(evt =>
       singleDayEventSegments(
         evt,
@@ -109,7 +100,7 @@ class SingleDayContentRow extends React.Component {
           startAccessor,
           endAccessor,
         },
-        dayIntervals
+        intervals
       )
     ))
     let { levels } = eventLevels(segments, Math.max(maxRows - 1, 1))
@@ -125,7 +116,7 @@ class SingleDayContentRow extends React.Component {
               start={first}
               end={last}
               segments={segs}
-              slots={dayIntervals.length}
+              slots={intervals.length}
               eventComponent={eventComponent}
               eventWrapperComponent={eventWrapperComponent}
               startAccessor={startAccessor}

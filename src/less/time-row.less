@@ -1,0 +1,79 @@
+@import './variables.less';
+
+
+.rbc-time-row {
+  display: flex;
+  flex-direction: row;
+  min-height: 100%;
+
+  .rbc-time-group {
+    flex: 1;
+  }
+}
+
+.rbc-ruler-row {
+  display: flex;
+  flex-direction: row;
+  min-height: 100%;
+
+  .rbc-ruler-group {
+    flex: 1;
+  }
+}
+
+.rbc-time-group {
+  min-height: 20px;
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+.rbc-ruler-group {
+  height: 20px;
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+.rbc-ruler-slot {
+  flex: 1 0 0;
+  position: relative;
+  &:after {
+    content: ""; /* This is necessary for the pseudo element to work. */
+    display: block; /* This will put the pseudo element on its own line. */
+    margin: 0 auto; /* This will center the border. */
+    height: 100%; /* Change this to whatever width you want. */
+    padding-top: 20px; /* This creates some space between the element and the border. */
+    border-left: 1px solid black; /* This creates the border. Replace black with whatever color you want. */
+  }
+}
+
+.rbc-ruler-slot-lowBar{
+  flex: 1 0 0;
+  position: relative;
+  &:after {
+      content: ""; /* This is necessary for the pseudo element to work. */
+      display: block; /* This will put the pseudo element on its own line. */
+      margin-top: 10px;
+      height: 50%; /* Change this to whatever width you want. */
+      padding-bottom: 10px; /* This creates some space between the element and the border. */
+      border-left: 1px solid black; /* This creates the border. Replace black with whatever color you want. */
+  }
+}
+
+.rbc-ruler-slot-mediumBar{
+  flex: 1 0 0;
+  position: relative;
+  &:after {
+      content: ""; /* This is necessary for the pseudo element to work. */
+      display: block; /* This will put the pseudo element on its own line. */
+      margin-top: 6px;
+      height: 70%; /* Change this to whatever width you want. */
+      padding-bottom: 10px; /* This creates some space between the element and the border. */
+      border-left: 1px solid black; /* This creates the border. Replace black with whatever color you want. */
+  }
+}
+
+
+.rbc-ruler-label {
+  padding: 0;
+  margin-left: -4px;
+}

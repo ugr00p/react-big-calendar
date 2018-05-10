@@ -3,12 +3,13 @@ import raf from 'dom-helpers/util/requestAnimationFrame'
 import React, { Component } from 'react'
 import { findDOMNode } from 'react-dom'
 
-import dates from './utils/dates'
+import dates, { TIME_INTERVAL } from './utils/dates'
 import { accessor, dateFormat } from './utils/propTypes'
 import { notify } from './utils/helpers'
 import { accessor as get } from './utils/accessors'
 import { inRange, sortEvents } from './utils/eventLevels'
 import SingleDayContentRow from './SingleDayContentRow'
+import SingleDayContentGutter from './SingleDayContentGutter'
 
 export default class SingleDayGrid extends Component {
   static propTypes = {
@@ -36,6 +37,9 @@ export default class SingleDayGrid extends Component {
     onDoubleClickEvent: PropTypes.func,
     messages: PropTypes.object,
     components: PropTypes.object.isRequired,
+    dayStartTime: PropTypes.number,
+    dayEndTime: PropTypes.number,
+    timeIntervalGetter: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -45,6 +49,9 @@ export default class SingleDayGrid extends Component {
     max: dates.endOf(new Date(), 'day'),
     scrollToTime: dates.startOf(new Date(), 'day'),
     defaultDate: new Date('0001-01-01'),
+    dayStartTime: 0,
+    dayEndTime: 24,
+    timeIntervalGetter: TIME_INTERVAL,
   }
 
   constructor(props) {
@@ -94,13 +101,17 @@ export default class SingleDayGrid extends Component {
       endAccessor,
       selected,
       components,
+      timeIntervalGetter,
+      dayStartTime,
+      dayEndTime,
     } = this.props
 
     let start = range[0],
       end = range[range.length - 1]
 
     let singleDayEvents = []
-
+    const fifteenMinsInterval = timeIntervalGetter(dayStartTime, dayEndTime)
+    const hourInterval = timeIntervalGetter(dayStartTime, dayEndTime, 1)
     events.forEach(event => {
       if (inRange(event, start, end, this.props)) {
         let eStart = get(event, startAccessor),
@@ -113,9 +124,9 @@ export default class SingleDayGrid extends Component {
 
     singleDayEvents.sort((a, b) => sortEvents(a, b, this.props))
     return (
-      <div className="rbc-time-view">
+      <div className="rbc-singleDay-time-view">
         <SingleDayContentRow
-          minRows={2}
+          minRows={1}
           range={range}
           events={singleDayEvents}
           className="rbc-allday-cell"
@@ -130,7 +141,9 @@ export default class SingleDayGrid extends Component {
           onSelect={this.handleSelectAlldayEvent}
           onDoubleClick={this.props.onDoubleClickEvent}
           onSelectSlot={this.handleSelectAllDaySlot}
+          intervals={fifteenMinsInterval}
         />
+        <SingleDayContentGutter timesRange={hourInterval} />
       </div>
     )
   }

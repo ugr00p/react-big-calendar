@@ -42,6 +42,18 @@ const events = [
       .toDate(),
     allDay: false,
   },
+  {
+    title: 'test larger',
+    start: moment()
+      .startOf('day')
+      .add(9, 'hours')
+      .toDate(),
+    end: moment()
+      .startOf('day')
+      .add(23, 'hours')
+      .toDate(),
+    allDay: false,
+  },
 
   {
     title: 'test larger',
@@ -88,6 +100,14 @@ const events = [
 ]
 
 const DragAndDropCalendar = withDragAndDrop(Calendar)
+
+const EventPropGetter = (event, start, end, selected) => {
+  return {
+    style: {
+      backgroundColor: 'red',
+    },
+  }
+}
 
 const DragableCalendar = props => {
   return (
@@ -557,6 +577,20 @@ storiesOf('module.Calendar.week', module)
           showMultiDayTimes
           onEventDrop={action('event dropped')}
           onEventResize={action('event resized')}
+        />
+      </div>
+    )
+  })
+  .add('single Day Events', () => {
+    return (
+      <div>
+        <Calendar
+          views={[Calendar.Views.SINGLE_DAY]}
+          defaultView={Calendar.Views.SINGLE_DAY}
+          events={events}
+          onSelectEvent={action('event selected')}
+          toolbar={false}
+          eventPropGetter={EventPropGetter}
         />
       </div>
     )

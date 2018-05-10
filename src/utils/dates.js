@@ -10,10 +10,9 @@ const MILLI = {
 }
 
 const MONTHS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
-export const DAY_FIFTEEN_MINS_INTERVAL = (start = 0, end = 24) => {
+export const TIME_INTERVAL = (start = 0, end = 24, interval = 0.25) => {
   let hours = []
-  let internal = 0.25
-  for (let index = start; index < end; index += internal) {
+  for (let index = start; index < end; index += interval) {
     hours.push(index)
   }
   return hours
