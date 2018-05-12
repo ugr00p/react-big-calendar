@@ -54,7 +54,6 @@ const events = [
       .toDate(),
     allDay: false,
   },
-
   {
     title: 'test larger',
     start: moment()
@@ -71,12 +70,13 @@ const events = [
     title: 'test all day',
     start: moment()
       .startOf('day')
+      .add(0, 'hours')
       .toDate(),
     end: moment()
       .startOf('day')
-      .add(1, 'day')
+      .add(23, 'hours')
+      .add(59, 'minutes')
       .toDate(),
-    allDay: true,
   },
   {
     title: 'test 2 days',

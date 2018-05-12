@@ -170,14 +170,19 @@ let dates = {
     const FIFTEEN_INTERVAL = 15
     let roundStartMins
     let roundEndMins
-    if (start % FIFTEEN_INTERVAL > 7) {
-      // Round Up
-      roundStartMins = Math.ceil(start / FIFTEEN_INTERVAL) * FIFTEEN_INTERVAL
-      roundEndMins = Math.ceil(end / FIFTEEN_INTERVAL) * FIFTEEN_INTERVAL
-    } else {
-      roundStartMins = Math.floor(start / FIFTEEN_INTERVAL) * FIFTEEN_INTERVAL
-      roundEndMins = Math.floor(end / FIFTEEN_INTERVAL) * FIFTEEN_INTERVAL
+
+    const roundNum = num => {
+      let result
+      if (num % FIFTEEN_INTERVAL > 7) {
+        // Round Up
+        result = Math.ceil(num / FIFTEEN_INTERVAL) * FIFTEEN_INTERVAL
+      } else {
+        result = Math.floor(num / FIFTEEN_INTERVAL) * FIFTEEN_INTERVAL
+      }
+      return result
     }
+    roundStartMins = roundNum(start)
+    roundEndMins = roundNum(end)
     return { roundStartMins, roundEndMins }
   },
 }
