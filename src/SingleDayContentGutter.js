@@ -24,10 +24,14 @@ export default class SingleDayContentGutter extends Component {
     )
   }
 
-  renderRuler = (value, idex) => {
+  renderRuler = (value, idex, isLast = false) => {
     let classname = 'rbc-ruler-slot'
     if (idex === 1 || idex === 3) {
-      classname = 'rbc-ruler-slot-lowBar'
+      if (isLast && idex == 3) {
+        classname = 'rbc-ruler-slot-lowBar-last'
+      } else {
+        classname = 'rbc-ruler-slot-lowBar'
+      }
     } else if (idex === 2) {
       classname = 'rbc-ruler-slot-mediumBar'
     }
@@ -46,6 +50,7 @@ export default class SingleDayContentGutter extends Component {
                 value={time}
                 groupClassName={'rbc-ruler-group'}
                 renderSlot={this.renderRuler}
+                isLast={timesRange.length - 1 === idx}
               />
             )
           })}
