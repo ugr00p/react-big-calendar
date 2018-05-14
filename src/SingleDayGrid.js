@@ -125,24 +125,26 @@ export default class SingleDayGrid extends Component {
     singleDayEvents.sort((a, b) => sortEvents(a, b, this.props))
     return (
       <div className="rbc-singleDay-time-view">
-        <SingleDayContentRow
-          minRows={1}
-          range={range}
-          events={singleDayEvents}
-          className="rbc-allday-cell"
-          selected={selected}
-          eventComponent={components.event}
-          eventWrapperComponent={components.eventWrapper}
-          titleAccessor={this.props.titleAccessor}
-          tooltipAccessor={this.props.tooltipAccessor}
-          startAccessor={startAccessor}
-          endAccessor={endAccessor}
-          eventPropGetter={this.props.eventPropGetter}
-          onSelect={this.handleSelectAlldayEvent}
-          onDoubleClick={this.props.onDoubleClickEvent}
-          onSelectSlot={this.handleSelectAllDaySlot}
-          intervals={fifteenMinsInterval}
-        />
+        <div className="rbc-singleDay-container">
+          <SingleDayContentRow
+            minRows={1}
+            range={range}
+            events={singleDayEvents}
+            className="rbc-allday-cell"
+            selected={selected}
+            eventComponent={components.event}
+            eventWrapperComponent={components.eventWrapper}
+            titleAccessor={this.props.titleAccessor}
+            tooltipAccessor={this.props.tooltipAccessor}
+            startAccessor={startAccessor}
+            endAccessor={endAccessor}
+            eventPropGetter={this.props.eventPropGetter}
+            onSelect={this.handleSelectAlldayEvent}
+            onDoubleClick={this.props.onDoubleClickEvent}
+            onSelectSlot={this.handleSelectAllDaySlot}
+            intervals={fifteenMinsInterval}
+          />
+        </div>
         <SingleDayContentGutter timesRange={hourInterval} />
       </div>
     )

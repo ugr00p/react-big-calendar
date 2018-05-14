@@ -27,7 +27,7 @@ export default class SingleDayContentGutter extends Component {
   renderRuler = (value, idex, isLast = false) => {
     let classname = 'rbc-ruler-slot'
     if (idex === 1 || idex === 3) {
-      if (isLast && idex == 3) {
+      if (isLast && idex === 3) {
         classname = 'rbc-ruler-slot-lowBar-last'
       } else {
         classname = 'rbc-ruler-slot-lowBar'
@@ -41,7 +41,7 @@ export default class SingleDayContentGutter extends Component {
   render() {
     const { timesRange } = this.props
     return (
-      <div>
+      <div className={'rbc-time-gutter-container'}>
         <div className="rbc-time-gutter rbc-ruler-row">
           {timesRange.map((time, idx) => {
             return (
