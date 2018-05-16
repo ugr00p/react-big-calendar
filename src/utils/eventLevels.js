@@ -56,7 +56,7 @@ export function singleDayEventSegments(
   let spanHour = dates.diff(start, end, 'hours') * 4
   let spanMin = (roundEndMins - roundStartMins) / 15
   spanHour = Math.min(spanHour, slots)
-  spanHour = Math.max(spanHour, 1)
+  spanHour = Math.max(spanHour, 0)
   let span = spanHour + spanMin
   return {
     event,
