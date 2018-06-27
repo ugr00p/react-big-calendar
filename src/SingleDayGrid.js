@@ -10,6 +10,7 @@ import { accessor as get } from './utils/accessors'
 import { inRange, sortEvents } from './utils/eventLevels'
 import SingleDayContentRow from './SingleDayContentRow'
 import SingleDayContentGutter from './SingleDayContentGutter'
+import SingeDayContentCeiling from './SingeDayContentCeiling'
 
 export default class SingleDayGrid extends Component {
   static propTypes = {
@@ -110,14 +111,23 @@ export default class SingleDayGrid extends Component {
       end = range[range.length - 1]
 
     let singleDayEvents = []
+    let singleDayPinEvents = []
     const fifteenMinsInterval = timeIntervalGetter(dayStartTime, dayEndTime)
     const hourInterval = timeIntervalGetter(dayStartTime, dayEndTime, 1)
     events.forEach(event => {
       if (inRange(event, start, end, this.props)) {
-        let eStart = get(event, startAccessor),
-          eEnd = get(event, endAccessor)
-        if (dates.neq(eStart, eEnd) && dates.gt(eEnd, eStart)) {
-          singleDayEvents.push(event)
+        if (
+          event.renderSection === 'content' ||
+          event.renderSection === undefined
+        ) {
+          let eStart = get(event, startAccessor),
+            eEnd = get(event, endAccessor)
+          if (dates.neq(eStart, eEnd) && dates.gt(eEnd, eStart)) {
+            singleDayEvents.push(event)
+          }
+        }
+        if (event.renderSection == 'ceiling') {
+          singleDayPinEvents.push(event)
         }
       }
     })
@@ -125,6 +135,26 @@ export default class SingleDayGrid extends Component {
     singleDayEvents.sort((a, b) => sortEvents(a, b, this.props))
     return (
       <div className="rbc-singleDay-time-view">
+        <div className="rbc-singleDay-ceiling">
+          <SingeDayContentCeiling
+            minRows={1}
+            range={range}
+            events={singleDayPinEvents}
+            className="rbc-allday-cell"
+            selected={selected}
+            eventComponent={components.event}
+            eventWrapperComponent={components.eventWrapper}
+            titleAccessor={this.props.titleAccessor}
+            tooltipAccessor={this.props.tooltipAccessor}
+            startAccessor={startAccessor}
+            endAccessor={endAccessor}
+            eventPropGetter={this.props.eventPropGetter}
+            onSelect={this.handleSelectAlldayEvent}
+            onDoubleClick={this.props.onDoubleClickEvent}
+            onSelectSlot={this.handleSelectAllDaySlot}
+            intervals={fifteenMinsInterval}
+          />
+        </div>
         <div className="rbc-singleDay-container">
           <SingleDayContentRow
             minRows={1}

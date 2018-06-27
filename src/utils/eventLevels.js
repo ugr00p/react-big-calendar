@@ -32,6 +32,29 @@ export function eventSegments(
   }
 }
 
+export function singleDayPinSegments(
+  event,
+  first,
+  last,
+  { startAccessor },
+  timeRange
+) {
+  let eStart = get(event, startAccessor)
+  let eStartHour = dates.hours(eStart)
+  let eStartMin = dates.minutes(eStart)
+  let { roundStartMins } = dates.roundMins(eStartMin, null)
+  let hourMins = eStartHour + roundStartMins / 60
+  let padding = findIndex(timeRange, x => x === hourMins)
+  let spanMin = 30 / 15
+  let span = spanMin
+  return {
+    event,
+    span,
+    left: padding + 1,
+    right: Math.max(padding + span, 1),
+  }
+}
+
 export function singleDayEventSegments(
   event,
   first,

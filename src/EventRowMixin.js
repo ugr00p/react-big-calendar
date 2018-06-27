@@ -87,6 +87,14 @@ export default {
     )
   },
 
+  renderFixedSpan(key, content = ' ') {
+    return (
+      <div key={key} className="rbc-row-segment" style={{ minWidth: '40px' }}>
+        {content}
+      </div>
+    )
+  },
+
   getRowHeight() {
     getHeight(findDOMNode(this))
   },
