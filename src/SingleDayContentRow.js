@@ -59,7 +59,7 @@ class SingleDayContentRow extends React.Component {
     let { className } = this.props
     return (
       <div className={className}>
-        <div className="rbc-row-content">
+        <div className="rbc-row-content-singleDay">
           <div className="rbc-row" ref={this.createEventRef}>
             <div className="rbc-row-segment">
               <div className="rbc-event">
@@ -108,7 +108,7 @@ class SingleDayContentRow extends React.Component {
 
     return (
       <div className={className}>
-        <div className="rbc-row-content">
+        <div className="rbc-row-content-singleDay">
           {levels.map((segs, idx) => (
             <EventRow
               {...props}

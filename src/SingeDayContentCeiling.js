@@ -59,7 +59,7 @@ class SingeDayContentCeiling extends React.Component {
     let { className } = this.props
     return (
       <div className={className}>
-        <div className="rbc-row-content">
+        <div className="rbc-row-content-singleDay">
           <div className="rbc-ceiling" ref={this.createEventRef}>
             <div className="rbc-row-segment">
               <div className="rbc-event">
@@ -106,7 +106,7 @@ class SingeDayContentCeiling extends React.Component {
     while (levels.length < minRows) levels.push([])
     return (
       <div className={className}>
-        <div className="rbc-row-content">
+        <div className="rbc-row-content-singleDay">
           {levels.map((segs, idx) => (
             <EventRow
               fixedSpan={true}
