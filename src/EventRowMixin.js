@@ -89,7 +89,7 @@ export default {
 
   renderFixedSpan(key, content = ' ') {
     return (
-      <div key={key} className="rbc-row-segment" style={{ minWidth: '40px' }}>
+      <div key={key} className="rbc-row-segment" style={{ minWidth: '10px' }}>
         {content}
       </div>
     )
