@@ -44,6 +44,9 @@ export function singleDayPinSegments(
   let eStartMin = dates.minutes(eStart)
   let { roundStartMins } = dates.roundMins(eStartMin, null)
   let hourMins = eStartHour + roundStartMins / 60
+  if (hourMins === 24) {
+    hourMins = 23.75
+  }
   let padding = findIndex(timeRange, x => x === hourMins)
   let spanMin = 30 / 15
   let span = spanMin
