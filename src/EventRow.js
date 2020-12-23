@@ -5,13 +5,15 @@ import EventRowMixin from './EventRowMixin'
 class EventRow extends React.Component {
   static propTypes = {
     segments: PropTypes.array,
+    fixedSpan: PropTypes.bool,
     ...EventRowMixin.propTypes,
   }
   static defaultProps = {
+    fixedSpan: false,
     ...EventRowMixin.defaultProps,
   }
   render() {
-    let { segments, slots } = this.props
+    let { segments, slots, fixedSpan } = this.props
 
     let lastEnd = 1
 
@@ -24,8 +26,11 @@ class EventRow extends React.Component {
           let content = EventRowMixin.renderEvent(this.props, event)
 
           if (gap) row.push(EventRowMixin.renderSpan(slots, gap, `${key}_gap`))
-
-          row.push(EventRowMixin.renderSpan(slots, span, key, content))
+          row.push(
+            !fixedSpan
+              ? EventRowMixin.renderSpan(slots, span, key, content)
+              : EventRowMixin.renderFixedSpan(key, content)
+          )
 
           lastEnd = right + 1
 

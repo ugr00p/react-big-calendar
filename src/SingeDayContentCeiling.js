@@ -1,14 +1,14 @@
-import getHeight from 'dom-helpers/query/height'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { findDOMNode } from 'react-dom'
 import { accessor, elementType } from './utils/propTypes'
 import {
-  singleDayEventSegments,
+  singleDayPinSegments,
   endOfRange,
   eventLevels,
 } from './utils/eventLevels'
 import EventRow from './EventRow'
+import getHeight from 'dom-helpers/query/height'
+import { findDOMNode } from 'react-dom'
 
 const propTypes = {
   events: PropTypes.array.isRequired,
@@ -32,7 +32,7 @@ const defaultProps = {
   maxRows: Infinity,
 }
 
-class SingleDayContentRow extends React.Component {
+class SingeDayContentCeiling extends React.Component {
   handleSelectSlot = slot => {
     const { range, onSelectSlot } = this.props
 
@@ -60,7 +60,7 @@ class SingleDayContentRow extends React.Component {
     return (
       <div className={className}>
         <div className="rbc-row-content-singleDay">
-          <div className="rbc-row" ref={this.createEventRef}>
+          <div className="rbc-ceiling" ref={this.createEventRef}>
             <div className="rbc-row-segment">
               <div className="rbc-event">
                 <div className="rbc-event-content">&nbsp;</div>
@@ -80,11 +80,11 @@ class SingleDayContentRow extends React.Component {
       renderForMeasure,
       startAccessor,
       endAccessor,
-      minRows,
-      maxRows,
       eventComponent,
       eventWrapperComponent,
       intervals,
+      minRows,
+      maxRows,
       ...props
     } = this.props
 
@@ -92,25 +92,24 @@ class SingleDayContentRow extends React.Component {
 
     let { first, last } = endOfRange(range)
     let segments = (this.segments = events.map(evt =>
-      singleDayEventSegments(
+      singleDayPinSegments(
         evt,
         first,
         last,
         {
           startAccessor,
-          endAccessor,
         },
         intervals
       )
     ))
     let { levels } = eventLevels(segments, Math.max(maxRows - 1, 1))
     while (levels.length < minRows) levels.push([])
-
     return (
       <div className={className}>
         <div className="rbc-row-content-singleDay">
           {levels.map((segs, idx) => (
             <EventRow
+              fixedSpan={true}
               {...props}
               key={idx}
               start={first}
@@ -129,7 +128,7 @@ class SingleDayContentRow extends React.Component {
   }
 }
 
-SingleDayContentRow.propTypes = propTypes
-SingleDayContentRow.defaultProps = defaultProps
+SingeDayContentCeiling.propTypes = propTypes
+SingeDayContentCeiling.defaultProps = defaultProps
 
-export default SingleDayContentRow
+export default SingeDayContentCeiling

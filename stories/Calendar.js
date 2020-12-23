@@ -79,6 +79,18 @@ const events = [
       .toDate(),
   },
   {
+    title: 'test smaller',
+    start: moment()
+      .startOf('day')
+      .add(23, 'hours')
+      .toDate(),
+    end: moment()
+      .startOf('day')
+      .add(23, 'hours')
+      .add(15, 'minutes')
+      .toDate(),
+  },
+  {
     title: 'test 2 days',
     start: moment()
       .startOf('day')
@@ -90,8 +102,22 @@ const events = [
     allDay: true,
   },
   {
+    renderSection: 'ceiling',
+    title: 'ceiling1',
+    start: moment()
+      .startOf('day')
+      .toDate(),
+    end: moment()
+      .add(3, 'days')
+      .toDate(),
+    allDay: false,
+  },
+  {
+    renderSection: 'ceiling',
     title: 'test multi-day',
-    start: moment().toDate(),
+    start: moment()
+      .startOf('day')
+      .toDate(),
     end: moment()
       .add(3, 'days')
       .toDate(),

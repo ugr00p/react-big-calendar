@@ -51,10 +51,25 @@
   width: 100%;
   min-height: 0;
 
+  .rbc-singleDay-ceiling {
+     padding: 0px 16px 0px 16px;
+     .rbc-event-content {
+        overflow: unset;
+     }
+     .rbc-row {
+       box-sizing: border-box;
+       min-height: 0px;
+     }
+  }
+
   .rbc-singleDay-container {
     padding: 8px 16px 8px 16px;
     background: #f5f7f9;
     border-radius: 5px;
+    .rbc-row {
+      box-sizing: border-box;
+      min-height: 20px;
+    }
   }
 
   .rbc-time-gutter-container {
@@ -63,11 +78,6 @@
   }
   .rbc-time-gutter {
     white-space: nowrap;
-  }
-
-  .rbc-row {
-    box-sizing: border-box;
-    min-height: 20px;
   }
 }
 
