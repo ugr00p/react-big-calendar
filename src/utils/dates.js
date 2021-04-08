@@ -162,8 +162,8 @@ let dates = {
   },
 
   stripDate(date) {
-    var dayWrapper = moment(date)
-    dayWrapper.set({ y: 1, M: 0, date: 1 })
+    const dayWrapper = moment(date)
+    dayWrapper.set({ y: 1970, M: 0, date: 1 })
     return dayWrapper.toDate()
   },
   roundMins(start, end) {

@@ -49,7 +49,7 @@ export default class SingleDayGrid extends Component {
     min: dates.startOf(new Date(), 'day'),
     max: dates.endOf(new Date(), 'day'),
     scrollToTime: dates.startOf(new Date(), 'day'),
-    defaultDate: new Date('0001-01-01'),
+    defaultDate: new Date('1970-01-01'),
     dayStartTime: 0,
     dayEndTime: 24,
     timeIntervalGetter: TIME_INTERVAL,
